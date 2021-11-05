@@ -76,6 +76,7 @@ const Carousel = () => {
               <Image
                 width="100%"
                 height="100%"
+                quality={100}
                 layout="responsive"
                 objectFit="contain"
                 alt="Image of vehicle"
