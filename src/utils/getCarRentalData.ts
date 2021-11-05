@@ -1,6 +1,6 @@
 export default function getCarRentalData() {
-  return fetch('http://www.cartrawler.com/ctabe/cars.json')
+  return fetch('/api/cars')
     .then((res) => res.json())
-    .then((result) => result[0])
+    .then((result) => result.cars[0])
     .catch((error) => console.log(error));
 }
