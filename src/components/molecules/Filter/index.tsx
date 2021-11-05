@@ -8,7 +8,7 @@ import Container from '@/atoms/Container';
 import React, { useContext } from 'react';
 import { CarRentalContext } from '@/providers/CarRentalProvider';
 
-const Divider = styled(Text, {
+export const Divider = styled(Text, {
   width: '100%',
   height: '1px',
   backgroundColor: '$slate6',

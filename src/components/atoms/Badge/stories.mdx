@@ -1,10 +1,10 @@
 import { ArgsTable } from '@storybook/addon-docs';
-import { default as StyledButton } from '@/atoms/Button';
+import { default as StyledBadge } from '@/atoms/Badge';
 import { Meta, Story, Canvas } from '@storybook/addon-docs';
 
 <Meta
-  title="Components/Atoms/Button"
-  component={StyledButton}
+  title="Components/Atoms/Badge"
+  component={StyledBadge}
   argTypes={{
     color: {
       control: {
@@ -22,19 +22,6 @@ import { Meta, Story, Canvas } from '@storybook/addon-docs';
         'crimson',
       ],
     },
-    radius: {
-      control: {
-        type: 'select',
-      },
-      options: [
-        1,
-        2,
-        3,
-        4,
-        'pill',
-        'round',
-      ],
-    },
     size: {
       control: {
         type: 'select',
@@ -48,25 +35,22 @@ import { Meta, Story, Canvas } from '@storybook/addon-docs';
   }}
 />
 
-export const Button = (args) => <StyledButton {...args} />
+export const Badge = (args) => <StyledBadge {...args} />
 
-# Button
+# Badge
 
 <Canvas>
   <Story
-    name="Button"
+    name="Badge"
     args={{
-      radius: 1,
       size: 'md',
       color: 'slate',
-      outlined: false,
-      disabled: false,
       children: 'Hello World!',
     }}
   >
-    {(args) => <Button {...args} />}
+    {(args) => <Badge {...args} />}
   </Story>
 </Canvas>
 
 
-<ArgsTable story="Button" />
+<ArgsTable story="Badge" />

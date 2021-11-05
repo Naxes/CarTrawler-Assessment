@@ -197,8 +197,8 @@ const Carousel = () => {
                   as="a"
                   outlined
                   size="lg"
-                  href="/"
                   color="blue"
+                  href={`vehicles/${vendor.name.toLowerCase()}/${vehicle.code.toLowerCase()}/`}
                   css={{
                     width: '100%',
                     justifyContent: 'center',

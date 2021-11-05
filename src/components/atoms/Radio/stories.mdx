@@ -1,0 +1,36 @@
+import { ArgsTable } from '@storybook/addon-docs';
+import { default as StyledRadio } from '@/atoms/Radio';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Atoms/Radio"
+  component={StyledRadio}
+  argTypes={{
+    size: {
+      control: {
+        type: 'select',
+      },
+      options: [
+        'sm',
+        'md',
+        'lg',
+      ],
+    },
+  }}
+/>
+
+export const Radio = (args) => <StyledRadio {...args} />
+
+# Radio
+
+<Canvas>
+  <Story
+    name="Radio"
+    args={{ size: 'md' }}
+  >
+    {(args) => <Radio {...args} />}
+  </Story>
+</Canvas>
+
+
+<ArgsTable story="Radio" />

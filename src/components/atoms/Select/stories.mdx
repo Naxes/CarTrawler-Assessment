@@ -1,0 +1,36 @@
+import { ArgsTable } from '@storybook/addon-docs';
+import { default as StyledSelect } from '@/atoms/Select';
+import { default as StyledOption } from '@/atoms/Option';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Atoms/Select"
+  component={StyledSelect}
+/>
+
+export const Select = (args) => <StyledSelect {...args} />
+
+export const Option = (args) => <StyledOption {...args} />
+
+# Select
+
+<Canvas>
+  <Story name="Select">
+    {(args) => (
+      <Select {...args}>
+        <Option value="Option 1">
+          Option 1
+        </Option>
+        <Option value="Option 2">
+          Option 2
+        </Option>
+        <Option value="Option 3">
+          Option 3
+        </Option>
+      </Select>
+    )}
+  </Story>
+</Canvas>
+
+
+<ArgsTable story="Select" />

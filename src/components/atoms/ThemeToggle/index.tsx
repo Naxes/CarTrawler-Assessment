@@ -5,7 +5,7 @@ import { faAdjust } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type Props = {
-  css: object,
+  css?: object,
 };
 
 const ThemeToggle = ({ css }: Props) => {

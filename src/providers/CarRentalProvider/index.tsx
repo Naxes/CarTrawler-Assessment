@@ -3,11 +3,13 @@ import React, { useEffect, useReducer, createContext } from 'react';
 
 type State = {
   vehicles: {
+    id: number,
     vendor: {
       name: string,
       code: string,
     },
     vehicle: {
+      code: string,
       fuelType: string,
       doorCount: string,
       makeModel: string,
@@ -51,6 +53,7 @@ type Vehicle = {
   },
   VehAvails: {
     Vehicle: {
+      ['@Code']: string,
       ['@FuelType']: string,
       ['@DoorCount']: string,
       ['@BaggageQuantity']: string,
@@ -77,11 +80,13 @@ type CarRental = {
     groupByPassengers: string,
   }
   vehicles: {
+    id: number,
     vendor: {
       name: string,
       code: string,
     },
     vehicle: {
+      code: string,
       fuelType: string,
       doorCount: string,
       makeModel: string,
@@ -262,6 +267,7 @@ const CarRentalProvider = ({ children }: Props) => {
               code: Vendor['@Code'],
             },
             vehicle: {
+              code: Vehicle['@Code'],
               fuelType: Vehicle['@FuelType'],
               doorCount: Vehicle['@DoorCount'],
               pictureUrl: Vehicle['PictureURL'],

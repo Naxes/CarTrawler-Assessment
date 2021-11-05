@@ -54,7 +54,7 @@ export const useSelectContext = () => {
   return context;
 };
 
-const Select = ({ children, defaultValue, placeholder, onChange, ...rest }: Props) => {
+const Select = ({ children, defaultValue, placeholder, onChange }: Props) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedOption, setSelectedOption] = useState(defaultValue || '');
 
