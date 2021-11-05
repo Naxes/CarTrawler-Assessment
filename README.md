@@ -1,7 +1,13 @@
 ## Setup
 ### Install Dependencies
-1. If running NPM v4 through v6: `npm install`.
-2. If running NPM v7: `npm install --legacy-peer-deps`.
+If running NPM v4 through v6:
+````
+npm install
+````
+If running NPM v7:
+````
+npm install --legacy-peer-deps
+````
 
 NPM v7 installs peer dependencies by default which will oftentimes
 lead to version conflicts, thus breaking the installation process.
