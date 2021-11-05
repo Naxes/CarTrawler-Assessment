@@ -74,8 +74,8 @@ const Carousel = () => {
               }}
             >
               <Image
-                width="100%"
-                height="100%"
+                width={350}
+                height={350}
                 quality={100}
                 layout="responsive"
                 objectFit="contain"
@@ -170,7 +170,7 @@ const Carousel = () => {
                   }}
                 >
                   <FontAwesomeIcon icon={faSuitcase} width="20" />
-                  {vehicle.passengerQuantity}
+                  {vehicle.baggageQuantity}
                 </Text>
                 <Text
                   size={3}

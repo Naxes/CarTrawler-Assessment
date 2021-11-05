@@ -30,12 +30,16 @@ type State = {
       name: string,
     },
   },
-  filteredVehicles: object[],
+  doorOptions: string[],
+  baggageOptions: string[],
   passengerOptions: string[],
+  filteredVehicles: object[],
   filters: {
     lowToHigh: boolean,
     highToLow: boolean,
     groupByVendor: string,
+    groupByBaggage: string,
+    groupByDoorCount: string,
     groupByPassengers: string,
   }
 }
@@ -102,8 +106,12 @@ type CarRental = {
   },
   lowToHigh: () => void,
   highToLow: () => void,
+  doorOptions: string[],
+  baggageOptions: string[],
   passengerOptions: string[],
   groupByVendor: (value: string) => void,
+  groupByBaggage: (value: string) => void,
+  groupByDoorCount: (value: string) => void,
   groupByPassengers: (value: string) => void,
 };
 
@@ -111,9 +119,13 @@ enum ActionType {
   SET_VEHICLES = 'SET_VEHICLES',
   SET_RENTAL_CORE = 'SET_RENTAL_CORE',
   GROUP_BY_VENDOR = 'GROUP_BY_VENDOR',
+  GROUP_BY_BAGGAGE = 'GROUP_BY_BAGGAGE',
+  SET_DOOR_OPTIONS = 'SET_DOOR_OPTIONS',
   SORT_BY_LOW_TO_HIGH = 'SORT_BY_LOW_TO_HIGH',
   SORT_BY_HIGH_TO_LOW = 'SORT_BY_HIGH_TO_LOW',
   GROUP_BY_PASSENGERS = 'GROUP_BY_PASSENGERS',
+  GROUP_BY_DOOR_COUNT = 'GROUP_BY_DOOR_COUNT',
+  SET_BAGGAGE_OPTIONS = 'SET_BAGGAGE_OPTIONS',
   SET_PASSENGER_OPTIONS = 'SET_PASSENGER_OPTIONS',
 }
 
@@ -123,7 +135,11 @@ type Action =
   | { type: ActionType.SET_VEHICLES; value: any[] }
   | { type: ActionType.SET_RENTAL_CORE; value: any }
   | { type: ActionType.GROUP_BY_VENDOR; value: string }
+  | { type: ActionType.GROUP_BY_BAGGAGE; value: string }
+  | { type: ActionType.GROUP_BY_DOOR_COUNT; value: string }
   | { type: ActionType.GROUP_BY_PASSENGERS; value: string }
+  | { type: ActionType.SET_DOOR_OPTIONS; value: string[] }
+  | { type: ActionType.SET_BAGGAGE_OPTIONS; value: string[] }
   | { type: ActionType.SET_PASSENGER_OPTIONS; value: string[] }
 
 function reducer(state: State, action: Action): State {
@@ -132,6 +148,10 @@ function reducer(state: State, action: Action): State {
       return { ...state, vehicles: action.value };
     case ActionType.SET_RENTAL_CORE:
       return { ...state, rentalCore: action.value };
+    case ActionType.SET_DOOR_OPTIONS:
+      return { ...state, doorOptions: action.value };
+    case ActionType.SET_BAGGAGE_OPTIONS:
+      return { ...state, baggageOptions: action.value };
     case ActionType.SET_PASSENGER_OPTIONS:
       return { ...state, passengerOptions: action.value };
     case ActionType.SORT_BY_LOW_TO_HIGH:
@@ -158,6 +178,22 @@ function reducer(state: State, action: Action): State {
         filters: {
           ...state.filters,
           groupByVendor: action.value,
+        },
+      };
+    case ActionType.GROUP_BY_DOOR_COUNT:
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          groupByDoorCount: action.value,
+        },
+      };
+    case ActionType.GROUP_BY_BAGGAGE:
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          groupByBaggage: action.value,
         },
       };
     case ActionType.GROUP_BY_PASSENGERS:
@@ -190,12 +226,16 @@ const CarRentalProvider = ({ children }: Props) => {
         name: '',
       },
     },
-    filteredVehicles: [],
+    doorOptions: [],
+    baggageOptions: [],
     passengerOptions: [],
+    filteredVehicles: [],
     filters: {
       lowToHigh: true, // Sort by price ASC by default
       highToLow: false,
       groupByVendor: '',
+      groupByBaggage: '',
+      groupByDoorCount: '',
       groupByPassengers: '',
     }
   };
@@ -249,13 +289,28 @@ const CarRentalProvider = ({ children }: Props) => {
       };
 
       /**
-       * All options for passenger capacity;
-       * in this case, 5 or 5+
+       * All options for door quantity
+       */
+      const doorOptions = [...new Set(vehicles.map(
+        ({ vehicle: { baggageQuantity } }) => baggageQuantity).sort()
+      )];
+
+      /**
+       * All options for baggage capacity
+       */
+      const baggageOptions = [...new Set(vehicles.map(
+        ({ vehicle: { baggageQuantity } }) => baggageQuantity).sort()
+      )];
+
+      /**
+       * All options for passenger capacity
        */
       const passengerOptions = [...new Set(vehicles.map(
         ({ vehicle: { passengerQuantity } }) => passengerQuantity).sort()
       )];
 
+      dispatch({ type: ActionType.SET_DOOR_OPTIONS, value: doorOptions });
+      dispatch({ type: ActionType.SET_BAGGAGE_OPTIONS, value: baggageOptions });
       dispatch({ type: ActionType.SET_PASSENGER_OPTIONS, value: passengerOptions });
       dispatch({ type: ActionType.SET_RENTAL_CORE, value: rentalCore });
       dispatch({ type: ActionType.SET_VEHICLES, value: vehicles });
@@ -305,8 +360,44 @@ const CarRentalProvider = ({ children }: Props) => {
   }
 
   /**
-   * Filter vehicles by number
-   * of passengers
+   * Filter vehicles by door
+   * quantity
+   * @param vehicles
+   */
+  function groupByDoorCount(vehicles: any[]) {
+    const { filters, doorOptions } = state;
+    const validOption = doorOptions.includes(filters.groupByDoorCount);
+
+    if (validOption) {
+      return vehicles.filter(
+        ({ vehicle }) => vehicle.doorCount === filters.groupByDoorCount,
+      );
+    }
+
+    return vehicles;
+  }
+
+  /**
+   * Filter vehicles by baggage
+   * quantity
+   * @param vehicles
+   */
+  function groupByBaggage(vehicles: any[]) {
+    const { filters, baggageOptions } = state;
+    const validOption = baggageOptions.includes(filters.groupByBaggage);
+
+    if (validOption) {
+      return vehicles.filter(
+        ({ vehicle }) => vehicle.baggageQuantity === filters.groupByBaggage,
+      );
+    }
+
+    return vehicles;
+  }
+
+  /**
+   * Filter vehicles by passenger
+   * quantity
    * @param vehicles
    */
   function groupByPassengers(vehicles: any[]) {
@@ -332,6 +423,8 @@ const CarRentalProvider = ({ children }: Props) => {
     if (filters.lowToHigh) vehicles = lowToHigh(vehicles);
     if (filters.highToLow) vehicles = highToLow(vehicles);
     if (filters.groupByVendor) vehicles = groupByVendor(vehicles);
+    if (filters.groupByBaggage) vehicles = groupByBaggage(vehicles);
+    if (filters.groupByDoorCount) vehicles = groupByDoorCount(vehicles);
     if (filters.groupByPassengers) vehicles = groupByPassengers(vehicles);
 
     return vehicles;
@@ -343,10 +436,14 @@ const CarRentalProvider = ({ children }: Props) => {
         filters: state.filters,
         vehicles: filterVehicles(),
         rentalCore: state.rentalCore,
+        doorOptions: state.doorOptions,
+        baggageOptions: state.baggageOptions,
         passengerOptions: state.passengerOptions,
         lowToHigh: () => dispatch({ type: ActionType.SORT_BY_LOW_TO_HIGH }),
         highToLow: () => dispatch({ type: ActionType.SORT_BY_HIGH_TO_LOW }),
         groupByVendor: (value: string) => dispatch({ type: ActionType.GROUP_BY_VENDOR, value }),
+        groupByBaggage: (value: string) => dispatch({ type: ActionType.GROUP_BY_BAGGAGE, value }),
+        groupByDoorCount: (value: string) => dispatch({ type: ActionType.GROUP_BY_DOOR_COUNT, value }),
         groupByPassengers: (value: string) => dispatch({ type: ActionType.GROUP_BY_PASSENGERS, value }),
       }}
     >

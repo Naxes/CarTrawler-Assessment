@@ -1,6 +1,8 @@
 import Text from '@/atoms/Text';
 import Flex from '@/atoms/Flex';
 import Radio from '@/atoms/Radio';
+import Select from '@/atoms/Select';
+import Option from '@/atoms/Option';
 import { styled } from 'stitches.config';
 import Container from '@/atoms/Container';
 import React, { useContext } from 'react';
@@ -18,7 +20,12 @@ const Filter = ({ ...rest }) => {
     filters,
     lowToHigh,
     highToLow,
+    doorOptions,
     groupByVendor,
+    baggageOptions,
+    groupByBaggage,
+    groupByDoorCount,
+    passengerOptions,
     groupByPassengers,
   } = useContext(CarRentalContext);
 
@@ -94,10 +101,31 @@ const Filter = ({ ...rest }) => {
       >
         Filter By
       </Text>
-      <select onChange={(e) => groupByVendor(e.target.value)}>
-        <option value="Default">Default</option>
-        <option value="ALAMO">ALAMO</option>
-      </select>
+      <Text css={{ my: '$3' }}>Vendor</Text>
+      <Select placeholder="All" onChange={groupByVendor}>
+        <Option value="All">All</Option>
+        <Option value="ALAMO">ALAMO</Option>
+        <Option value="AVIS">AVIS</Option>
+        <Option value="HERTZ">HERTZ</Option>
+      </Select>
+
+      <Text css={{ my: '$3' }}>Passengers</Text>
+      <Select placeholder="All" onChange={groupByPassengers}>
+        <Option value="All">All</Option>
+        {passengerOptions.map((option) => <Option value={option} key={option}>{option}</Option>)}
+      </Select>
+
+      <Text css={{ my: '$3' }}>Doors</Text>
+      <Select placeholder="All" onChange={groupByDoorCount}>
+        <Option value="All">All</Option>
+        {doorOptions.map((option) => <Option value={option} key={option}>{option}</Option>)}
+      </Select>
+
+      <Text css={{ my: '$3' }}>Baggage</Text>
+      <Select placeholder="All" onChange={groupByBaggage}>
+        <Option value="All">All</Option>
+        {baggageOptions.map((option) => <Option value={option} key={option}>{option}</Option>)}
+      </Select>
     </Container>
   );
 };
