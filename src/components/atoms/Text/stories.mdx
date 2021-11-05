@@ -1,0 +1,55 @@
+import { ArgsTable } from '@storybook/addon-docs';
+import { default as StyledText } from '@/atoms/Text';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Atoms/Text"
+  component={StyledText}
+  argTypes={{
+    color: {
+      control: { type: 'select' },
+      options: [
+        'blue',
+        'green',
+        'slate',
+        'violet',
+        'hiContrast',
+      ],
+    },
+    size: {
+      control: {
+        min: 1,
+        max: 9,
+        type: 'range',
+      },
+    },
+    weight: {
+      control: {
+        min: 1,
+        max: 4,
+        type: 'range',
+      },
+    },
+  }}
+/>
+
+export const Text = (args) => <StyledText {...args} />
+
+# Text
+
+<Canvas>
+  <Story
+    name="Text"
+    args={{
+      size: 9,
+      weight: 3,
+      color: 'hiContrast',
+      children: 'Hello World',
+    }}
+  >
+    {(args) => <Text {...args} />}
+  </Story>
+</Canvas>
+
+
+<ArgsTable story="Text" />

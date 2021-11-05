@@ -1,0 +1,62 @@
+import { styled } from 'stitches.config';
+import { ArgsTable } from '@storybook/addon-docs';
+import { default as StyledCol } from '@/atoms/Col';
+import { default as StyledFlex } from '@/atoms/Flex';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/Atoms/Flex"
+  component={StyledFlex}
+/>
+
+export const BorderedCol = styled(StyledCol, {
+  border: '1px solid $slate6',
+  padding: '$4',
+  marginTop: '-1px',
+  marginLeft: '-1px',
+});
+
+export const Col = (args) => <BorderedCol {...args} />;
+
+export const Flex = (args) => <StyledFlex {...args} style={{ height: '300px' }} />;
+
+# Flex
+
+<Canvas>
+  <Story
+    name="Flex"
+    args={{
+      align: 'start',
+      direction: 'row',
+      justify: 'start',
+      wrap: 'wrap',
+    }}
+    argTypes={{
+      align: {
+        control: { type: 'select' },
+        options: ['start', 'center', 'end', 'stretch', 'baseline'],
+      },
+      direction: {
+        control: { type: 'select' },
+        options: ['row', 'column', 'rowReverse', 'columnReverse'],
+      },
+      justify: {
+        control: { type: 'select' },
+        options: ['start', 'center', 'end'],
+      },
+      wrap: {
+        control: { type: 'select' },
+        options: ['noWrap', 'wrap', 'wrapReverse'],
+      }
+    }}
+  >
+    {(args) => (
+      <Flex {...args}>
+        <Col size={4}>4/12</Col>
+        <Col size={4}>4/12</Col>
+      </Flex>
+    )}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Flex" />
