@@ -6,7 +6,8 @@
       "@/hooks/*": ["src/hooks/*"],
       "@/providers/*": ["src/providers/*"],
       "@/atoms/*": ["src/components/atoms/*"],
-      "@/molecules/*": ["src/components/molecules/*"]
+      "@/molecules/*": ["src/components/molecules/*"],
+      "@/templates/*": ["src/components/templates/*"],
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
