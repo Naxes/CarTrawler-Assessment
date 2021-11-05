@@ -32,7 +32,6 @@ const Carousel = () => {
     }
   }, [vehicles]);
 
-
   return (
     <>
       <Flex

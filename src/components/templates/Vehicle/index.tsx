@@ -56,7 +56,7 @@ const Vehicle = ({ code, vendor }: Props) => {
           >
             Details
           </Text>
-          <Legend/>
+          <Legend />
         </Col>
         <Col
           size={12}

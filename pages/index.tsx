@@ -22,7 +22,6 @@ const Home: NextPage = () => {
         align="stretch"
         wrap="wrap"
         css={{
-          p: '$4',
           m: '0 auto',
           maxWidth: '1200px',
         }}
