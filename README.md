@@ -36,4 +36,4 @@ To view Storybook in the browser:
 npm run storybook
 ````
 
-Alternatively, you can view this on [GitHub Pages](https://naxes.github.io/CT-Test/).
+Alternatively, you can view this on [GitHub Pages](https://naxes.github.io/CarTrawler-Assessment/).
